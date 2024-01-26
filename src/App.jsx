@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Palette from './Palette';
 import seedsColors from './seedsColors';
 import { generatePalette } from "./colorHelpers";
