@@ -8,7 +8,7 @@ function Palette({ palette }) {
   const [format, setFormat] = useState("hex");
 
   const colorBoxes = palette.colors[sliderValue].map((color) => (
-    <ColorBox key={color.name} background={color} name={color.name} format={format} />
+    <ColorBox key={color.id} background={color} name={color.name} format={format} />
   ));
 
   const handleSliderChange = (newValue) => {
@@ -27,6 +27,10 @@ function Palette({ palette }) {
         changeFormat={changeFormat}
         />
         <div className="Palette-colors">{colorBoxes}</div>
+        <footer className="Palette-footer">
+          {palette.paletteName}
+          <span>{palette.emoji}</span>
+        </footer>
       </div>
   );
 }
