@@ -2,8 +2,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 
 function MiniPalette(props) {
-  const { paletteName, emoji, colors } = props;
-
+  const { paletteName, emoji, colors, paletteId, paletteClick } = props;
+  const handleClick = () => {
+    paletteClick(paletteId);
+  };
   return (
     <Box
       sx={{
@@ -41,11 +43,12 @@ function MiniPalette(props) {
           fontSize: "1rem",
           position: "relative",
         },
-        '& .emoji': {
+        "& .emoji": {
           marginLeft: "0.5rem",
           fontSize: "1.5rem",
         },
       }}
+      onClick={handleClick}
     >
       <section className="secondary">
         <div className="colors">
@@ -53,13 +56,12 @@ function MiniPalette(props) {
             <div
               className="miniColor"
               key={color.name}
-              style={{ backgroundColor: color.color }}Í
+              style={{ backgroundColor: color.color }}
             ></div>
-          ))
-          }         
+          ))}
         </div>
         <h5 className="title">
-          {paletteName} <span className='emoji'>{emoji}</span>
+          {paletteName} <span className="emoji">{emoji}</span>
         </h5>
       </section>
     </Box>

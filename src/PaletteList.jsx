@@ -1,8 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 import Box from "@mui/material/Box";
 
 function PaletteList({ palettes }) {
+  const navigate = useNavigate();
+  const goToPalette = (id) => {
+    navigate(`/palette/${id}`);
+  };
   return (
     <Box
       sx={{
@@ -46,7 +51,9 @@ function PaletteList({ palettes }) {
               paletteName={palette.paletteName}
               emoji={palette.emoji}
               colors={palette.colors}
-            />  
+              paletteId={palette.id}
+              paletteClick={goToPalette}
+            />
           ))}
         </Box>
       </Box>
