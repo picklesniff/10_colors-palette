@@ -8,7 +8,15 @@ function Palette({ palette }) {
   const [format, setFormat] = useState("hex");
 
   const colorBoxes = palette.colors[sliderValue].map((color) => (
-    <ColorBox key={color.id} background={color} name={color.name} format={format} />
+    <ColorBox 
+    key={color.id} 
+    id={color.id} 
+    background={color} 
+    name={color.name} 
+    format={format} 
+    moreUrl={`/palette/${palette.id}/${color.id}`}
+    showLink={true}
+    />
   ));
 
   const handleSliderChange = (newValue) => {

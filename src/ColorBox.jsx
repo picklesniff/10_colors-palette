@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Link } from "react-router-dom";
 import chroma from "chroma-js";
 import "./ColorBox.css";
 
-function ColorBox({ background, name, format }) {
+function ColorBox({ background, name, format, moreUrl, showLink}) {
   const [copied, setCopied] = useState(false);
-  
+
   const hexValue = background.hex;
   const rgbValue = chroma(hexValue).rgb().join(", ");
   const rgbaValue = chroma(hexValue).rgba().join(", ");
 
   const copyText =
-    format === "hex" ? background.hex : format === "rgb" ? `rgb(${rgbValue})` : `rgba(${rgbaValue})`;
+      ? background.hex
+      : format === "rgb"
+      ? `rgb(${rgbValue})`
+      : `rgba(${rgbaValue})`;
 
   const changeCopyState = () => {
     setCopied(true);
@@ -35,7 +39,11 @@ function ColorBox({ background, name, format }) {
           </div>
           <button className="copy-button">Copy</button>
         </div>
-        <span className="see-more">More</span>
+        {showLink && (
+          <Link to={moreUrl} onClick={(e) => e.stopPropagation()}>
+            <span className="see-more">More</span>
+          </Link>
+        )}
       </div>
     </CopyToClipboard>
   );
