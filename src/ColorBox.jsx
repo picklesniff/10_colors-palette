@@ -12,6 +12,7 @@ function ColorBox({ background, name, format, moreUrl, showLink}) {
   const rgbaValue = chroma(hexValue).rgba().join(", ");
 
   const copyText =
+    format === "hex"
       ? background.hex
       : format === "rgb"
       ? `rgb(${rgbValue})`
