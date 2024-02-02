@@ -6,23 +6,21 @@ import "./ColorBox.css";
 
 function ColorBox({ background, name, format, moreUrl, showLink}) {
   const [copied, setCopied] = useState(false);
-
+  const changeCopyState = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
   const hexValue = background.hex;
   const rgbValue = chroma(hexValue).rgb().join(", ");
   const rgbaValue = chroma(hexValue).rgba().join(", ");
-
   const copyText =
     format === "hex"
       ? background.hex
       : format === "rgb"
       ? `rgb(${rgbValue})`
       : `rgba(${rgbaValue})`;
-
-  const changeCopyState = () => {
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
+      const isDarkColor = chroma(hexValue).luminance() <= 0.1;
+      const isLightColor = chroma(hexValue).luminance() >= 0.1;
   return (
     <CopyToClipboard text={copyText} onCopy={changeCopyState}>
       <div style={{ background: background.hex }} className="ColorBox">
@@ -32,17 +30,17 @@ function ColorBox({ background, name, format, moreUrl, showLink}) {
         />
         <div className={`copy-msg ${copied && "show"}`}>
           <h1>copied!</h1>
-          <p>{copyText}</p>
+        <p className={`${isLightColor && 'dark-text'}`}>{copyText}</p>
         </div>
         <div className="copy-container">
           <div className="box-content">
-            <span>{name}</span>
+            <span className={isDarkColor ? 'light-text' : 'box-content'}>{name}</span>
           </div>
-          <button className="copy-button">Copy</button>
+          <button className={`copy-button ${isLightColor ? 'dark-text' : ''}`}>Copy</button>
         </div>
         {showLink && (
           <Link to={moreUrl} onClick={(e) => e.stopPropagation()}>
-            <span className="see-more">More</span>
+      <span className={`see-more ${isLightColor ? 'dark-text' : ''}`}>More</span>
           </Link>
         )}
       </div>
