@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import PaletteFooter from './PaletteFooter';
 import ColorBox from "./ColorBox";
@@ -31,13 +32,18 @@ function SingleColorPalette({ palette, colorId }) {
   ));
 
   return (
-    <div className="Palette">
+    <div className="SingleColorPalette Palette">
       <Navbar
         showingAllColors={false}
         format={format}
         changeFormat={changeFormat}
       />
-      <div className="Palette-colors">{colorBoxes}</div>
+      <div className="Palette-colors">
+        {colorBoxes}
+        <div className="go-back ColorBox">
+            <Link to={`/palette/${palette.id}`} className="back-button">Go Back</Link>
+        </div>
+        </div>
       <PaletteFooter palette={palette} />
     </div>
   );
