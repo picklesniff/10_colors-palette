@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-import "./Palette.css";
+import PaletteStyles from "./styles/PaletteStyles";
+// import "./Palette.css";
 
 function Palette({ palette }) {
   const [sliderValue, setSliderValue] = useState(500);
@@ -29,6 +30,7 @@ function Palette({ palette }) {
 
   return (
     <div className="Palette">
+      <PaletteStyles />
       <Navbar
         level={sliderValue}
         onSliderChange={handleSliderChange}

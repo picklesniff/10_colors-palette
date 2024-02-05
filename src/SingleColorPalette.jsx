@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import PaletteFooter from './PaletteFooter';
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
+import PaletteStyles from "./styles/PaletteStyles";
+import PaletteFooter from './PaletteFooter';
 
 function SingleColorPalette({ palette, colorId }) {
   const [format, setFormat] = useState("hex");
@@ -33,6 +34,7 @@ function SingleColorPalette({ palette, colorId }) {
 
   return (
     <div className="SingleColorPalette Palette">
+      <PaletteStyles />
       <Navbar
         showingAllColors={false}
         format={format}
