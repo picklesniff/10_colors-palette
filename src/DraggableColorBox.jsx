@@ -1,25 +1,18 @@
 import React from "react";
 
-const styles = {
-  root: {
+const DraggableColorBox = ({ color }) => {
+  const boxStyle = {
     width: "20%",
-    height: "165%",
+    height: "25%",
     margin: "0 auto",
     display: "inline-block",
     position: "relative",
     cursor: "pointer",
-    marginBottom: "-3.5px"
-  }
+    marginBottom: "-3.5px",
+    backgroundColor: color,
+  };
+
+  return <div style={boxStyle}>{color}</div>;
 };
 
-function DraggableColorBox(props) {
-    const { color } = props;
-  return (
-    <div
-      style={{ ...styles.root, backgroundColor: color }}
-    >
-      {color}
-    </div>
-  );
-}
 export default DraggableColorBox;
