@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const NavbarStyles = () => (
   <style>{`
@@ -7,6 +7,11 @@ const NavbarStyles = () => (
       align-items: center;
       justify-content: flex-start;
       height: 6vh;
+    }
+    
+    .link {
+      text-decoration: none;
+      color: black;
     }
 
     .logo {
@@ -18,11 +23,6 @@ const NavbarStyles = () => (
       height: 100%;
       display: flex;
       align-items: center;
-    }
-
-    .logo a {
-      text-decoration: none;
-      color: black;
     }
 
     .slider {

@@ -31,7 +31,7 @@ function Navbar({ level, onSliderChange, format, changeFormat, showingAllColors 
       <NavbarStyles />
       <header className="Navbar">
         <div className="logo">
-          <Link to='/'>reactcolorpicker</Link>
+          <Link to='/' className="link">reactcolorpicker</Link>
         </div>
         {showingAllColors && (
           <div>

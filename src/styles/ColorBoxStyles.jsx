@@ -93,7 +93,7 @@ const ColorBoxStyles = () => {
         transform: scale(0.1);
       }
 
-      '& .show' : {
+     .show {
         opacity: 1;
         transform: scale(50);
         z-index: 10;

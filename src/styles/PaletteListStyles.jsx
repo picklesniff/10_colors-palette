@@ -23,6 +23,13 @@ const PaletteListStyles = () => {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        color: white;
+      }
+
+      .paletteList .link {
+        color: white;
+        text-decoration: none;
       }
 
       .paletteGrid {
