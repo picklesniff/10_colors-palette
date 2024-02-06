@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ChromePicker } from "react-color";
 import { v4 as uuidv4 } from "uuid";
+import DraggableColorBox from "./DraggableColorBox";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -31,119 +32,116 @@ const NewPaletteForm = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <CssBaseline />
-      cb
-      <AppBar
-        position="fixed"
-        sx={{
-          transition: (theme) =>
-            theme.transitions.create(["margin", "width"], {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.leavingScreen,
-            }),
-          ...(open && {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: `${drawerWidth}px`,
+    <div>
+      <div style={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          sx={{
             transition: (theme) =>
               theme.transitions.create(["margin", "width"], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
               }),
-          }),
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ marginRight: "36px", ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            New Palette
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <Toolbar
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
+            ...(open && {
+              width: `calc(100% - ${drawerWidth}px)`,
+              marginLeft: `${drawerWidth}px`,
+              transition: (theme) =>
+                theme.transitions.create(["margin", "width"], {
+                  easing: theme.transitions.easing.easeOut,
+                  duration: theme.transitions.duration.enteringScreen,
+                }),
+            }),
           }}
         >
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Divider />
-        <Typography variant="h4">Design Your Palette</Typography>
-        <div>
-          <Button variant="contained" color="secondary">
-            Clear Palette
-          </Button>
-          <Button variant="contained" color="primary">
-            Random Color
-          </Button>
-        </div>
-        <ChromePicker
-          color={currentColor}
-          onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          style={{ backgroundColor: currentColor }}
-          onClick={addNewColor}
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ marginRight: "36px", ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              New Palette
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
         >
-          Add Color
-        </Button>
-      </Drawer>
-      <main
-        sx={{
-          flexGrow: 1,
-          padding: "20px",
-          transition: (theme) =>
-            theme.transitions.create("margin", {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.leavingScreen,
-            }),
-          marginLeft: `-${drawerWidth}px`,
-          ...(open && {
+          <Toolbar
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          <Typography variant="h4">Design Your Palette</Typography>
+          <div>
+            <Button variant="contained" color="secondary">
+              Clear Palette
+            </Button>
+            <Button variant="contained" color="primary">
+              Random Color
+            </Button>
+          </div>
+          <ChromePicker
+            color={currentColor}
+            onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ backgroundColor: currentColor }}
+            onClick={addNewColor}
+          >
+            Add Color
+          </Button>
+        </Drawer>
+        <main
+          sx={{
+            flexGrow: 1,
+            padding: "20px",
             transition: (theme) =>
               theme.transitions.create("margin", {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
               }),
-            marginLeft: 0,
-          }),
-        }}
-      >
-        <ul>
+            marginLeft: `-${drawerWidth}px`,
+            ...(open && {
+              transition: (theme) =>
+                theme.transitions.create("margin", {
+                  easing: theme.transitions.easing.easeOut,
+                  duration: theme.transitions.duration.enteringScreen,
+                }),
+              marginLeft: 0,
+            }),
+          }}
+        >
+          <Toolbar />
           {colors.map((color) => (
-            <li key={uuidv4()} style={{ backgroundColor: color }}>
-              {color}
-            </li>
-          ))}
-        </ul>
-        <Toolbar />
-      </main>
+        <DraggableColorBox color={color} key={uuidv4()} />
+      ))}
+        </main>
+      </div>
     </div>
   );
 };
