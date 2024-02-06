@@ -1,20 +1,22 @@
 import React, { useState } from "react";
+import { ChromePicker } from "react-color";
+import { v4 as uuidv4 } from "uuid";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { ChromePicker  } from 'react-color';
 
 const drawerWidth = 350;
-
 const NewPaletteForm = () => {
   const [open, setOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#3980CE");
+  const [colors, setColors] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -24,9 +26,14 @@ const NewPaletteForm = () => {
     setOpen(false);
   };
 
+  const addNewColor = () => {
+    setColors([...colors, currentColor]);
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <CssBaseline />
+      cb
       <AppBar
         position="fixed"
         sx={{
@@ -86,22 +93,27 @@ const NewPaletteForm = () => {
           </IconButton>
         </Toolbar>
         <Divider />
-        <Typography variant='h4'>Design Your Palette</Typography>
-          <div>
-            <Button variant='contained' color='secondary'>
-              Clear Palette
-            </Button>
-            <Button variant='contained' color='primary'>
-              Random Color
-            </Button>
-          </div>
-          <ChromePicker
-            color='purple'
-            onChangeComplete={newColor => console.log(newColor)}
-          />
+        <Typography variant="h4">Design Your Palette</Typography>
+        <div>
           <Button variant="contained" color="secondary">
-            Add Color
+            Clear Palette
           </Button>
+          <Button variant="contained" color="primary">
+            Random Color
+          </Button>
+        </div>
+        <ChromePicker
+          color={currentColor}
+          onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
+        />
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ backgroundColor: currentColor }}
+          onClick={addNewColor}
+        >
+          Add Color
+        </Button>
       </Drawer>
       <main
         sx={{
@@ -123,6 +135,13 @@ const NewPaletteForm = () => {
           }),
         }}
       >
+        <ul>
+          {colors.map((color) => (
+            <li key={uuidv4()} style={{ backgroundColor: color }}>
+              {color}
+            </li>
+          ))}
+        </ul>
         <Toolbar />
       </main>
     </div>
