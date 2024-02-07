@@ -1,6 +1,6 @@
 import React from "react";
 
-const DraggableColorBox = ({ color }) => {
+const DraggableColorBox = ({ color, name }) => {
   const boxStyle = {
     width: "20%",
     height: "25%",
@@ -12,7 +12,11 @@ const DraggableColorBox = ({ color }) => {
     backgroundColor: color,
   };
 
-  return <div style={boxStyle}>{color}</div>;
+  return (
+    <div style={boxStyle}>
+      { name ? name : color}
+    </div>
+  );
 };
 
 export default DraggableColorBox;
