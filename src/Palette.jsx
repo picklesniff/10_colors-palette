@@ -3,7 +3,6 @@ import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
 import PaletteStyles from "./styles/PaletteStyles";
-// import "./Palette.css";
 
 function Palette({ palette }) {
   const [sliderValue, setSliderValue] = useState(500);

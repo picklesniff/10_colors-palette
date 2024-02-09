@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChromePicker } from "react-color";
 import { v4 as uuidv4 } from "uuid";
 import { styled, useTheme } from "@mui/material/styles";
@@ -16,15 +17,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
+
 const drawerWidth = 350;
 
-const NewPaletteForm = () => {
+const NewPaletteForm = ({ savePalette }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const formRef = useRef(null);
   const [open, setOpen] = React.useState(false);
   const [currentColor, setCurrentColor] = useState("#E7CF0D");
   const [colors, setColors] = useState([]);
   const [newName, setNewName] = useState("");
-  const formRef = useRef(null);
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
@@ -85,11 +88,20 @@ const NewPaletteForm = () => {
   const handleChange = (event) => {
     setNewName(event.target.value);
   };
-
+  const handleSubmit = () => {
+    let newName = "New Test Palette";
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, "-"),
+      colors: colors,
+    };
+    savePalette(newPalette);
+    navigate("/");
+  };
   return (
     <Box style={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" color="default" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -103,6 +115,9 @@ const NewPaletteForm = () => {
           <Typography variant="h6" noWrap component="div">
             New Palette
           </Typography>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Save Palette
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
