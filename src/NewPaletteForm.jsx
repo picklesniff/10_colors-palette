@@ -17,26 +17,29 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-
 const drawerWidth = 350;
 
-const NewPaletteForm = ({ savePalette }) => {
+const NewPaletteForm = ({ savePalette, palettes }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const formRef = useRef(null);
   const [open, setOpen] = React.useState(false);
   const [currentColor, setCurrentColor] = useState("#E7CF0D");
   const [colors, setColors] = useState([]);
-  const [newName, setNewName] = useState("");
+  const [newColorName, setNewColorName] = useState("");
+  const [newPaletteName, setNewPaletteName] = useState("");
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
-      colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
-    );
+    colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
+  );
     ValidatorForm.addValidationRule("isColorUnique", (value) =>
       colors.every(({ color }) => color !== currentColor)
     );
-  }, [colors, currentColor]);
+    return () => {
+      ValidatorForm.removeValidationRule("isColorNameUnique");
+    };
+  }, [colors, currentColor, palettes]);
 
   const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -81,18 +84,22 @@ const NewPaletteForm = ({ savePalette }) => {
     setOpen(false);
   };
   const addNewColor = () => {
-    const newColor = { color: currentColor, name: newName };
+    const newColor = { color: currentColor, name: newColorName };
     setColors([...colors, newColor]);
-    setNewName("");
+    setNewColorName("");
   };
   const handleChange = (event) => {
-    setNewName(event.target.value);
+    const { name, value } = event.target;
+    if (name === "newPaletteName") {
+      setNewPaletteName(value); 
+    } else if (name === "newColorName") {
+      setNewColorName(value); 
+    }
   };
   const handleSubmit = () => {
-    let newName = "New Test Palette";
     const newPalette = {
-      paletteName: newName,
-      id: newName.toLowerCase().replace(/ /g, "-"),
+      paletteName: newPaletteName,
+      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
       colors: colors,
     };
     savePalette(newPalette);
@@ -101,6 +108,7 @@ const NewPaletteForm = ({ savePalette }) => {
   return (
     <Box style={{ display: "flex" }}>
       <CssBaseline />
+    
       <AppBar position="fixed" color="default" open={open}>
         <Toolbar>
           <IconButton
@@ -115,9 +123,19 @@ const NewPaletteForm = ({ savePalette }) => {
           <Typography variant="h6" noWrap component="div">
             New Palette
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Save Palette
-          </Button>
+          <ValidatorForm ref={formRef} onSubmit={handleSubmit}>
+            <TextValidator
+              label="Palette Name"
+              value={newPaletteName}
+              name="newPaletteName"
+              onChange={handleChange}
+              validators={["required", "isPaletteNameUnique"]}
+              errorMessages={["Enter Palette Name", "Palette name already exists!"]}
+            />
+            <Button variant="contained" color="primary" type="submit">
+              Save Palette
+            </Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,7 +173,8 @@ const NewPaletteForm = ({ savePalette }) => {
         />
         <ValidatorForm ref={formRef} onSubmit={addNewColor}>
           <TextValidator
-            value={newName}
+            value={newColorName}
+            name="newColorName"
             onChange={handleChange}
             validators={["required", "isColorNameUnique"]}
             errorMessages={[
