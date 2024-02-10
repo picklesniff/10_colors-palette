@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
-const DraggableColorBox = ({ color, name }) => {
+const DraggableColorBox = ({ color, name, handleDelete}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const boxStyle = {
@@ -44,7 +44,8 @@ const DraggableColorBox = ({ color, name }) => {
         <span>{ name ? name : color}</span>
         <DeleteTwoToneIcon 
           style={deleteIcon} 
-          className="delete-icon" />
+          className="delete-icon" 
+          onClick={handleDelete} />
       </div>
     </div>
   );

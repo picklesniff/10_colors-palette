@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChromePicker } from "react-color";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { styled, useTheme } from "@mui/material/styles";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import MuiAppBar from "@mui/material/AppBar";
@@ -31,8 +31,8 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
-    colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
-  );
+      colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
+    );
     ValidatorForm.addValidationRule("isColorUnique", (value) =>
       colors.every(({ color }) => color !== currentColor)
     );
@@ -91,9 +91,9 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     if (name === "newPaletteName") {
-      setNewPaletteName(value); 
+      setNewPaletteName(value);
     } else if (name === "newColorName") {
-      setNewColorName(value); 
+      setNewColorName(value);
     }
   };
   const handleSubmit = () => {
@@ -105,10 +105,15 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     savePalette(newPalette);
     navigate("/");
   };
+
+  const removeColor = (colorName) => {
+    setColors(colors.filter((color) => color.name !== colorName));
+  };
+  
   return (
     <Box style={{ display: "flex" }}>
       <CssBaseline />
-    
+
       <AppBar position="fixed" color="default" open={open}>
         <Toolbar>
           <IconButton
@@ -130,7 +135,10 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
               name="newPaletteName"
               onChange={handleChange}
               validators={["required", "isPaletteNameUnique"]}
-              errorMessages={["Enter Palette Name", "Palette name already exists!"]}
+              errorMessages={[
+                "Enter Palette Name",
+                "Palette name already exists!",
+              ]}
             />
             <Button variant="contained" color="primary" type="submit">
               Save Palette
@@ -199,7 +207,8 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
           <DraggableColorBox
             color={color.color}
             name={color.name}
-            key={uuidv4()}
+            key={color.name}
+            handleDelete={() => removeColor(color.name)}
           />
         ))}
       </Main>
