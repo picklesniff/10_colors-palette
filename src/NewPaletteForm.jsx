@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChromePicker } from "react-color";
-// import { v4 as uuidv4 } from "uuid";
 import { styled, useTheme } from "@mui/material/styles";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import DraggableColorBox from "./DraggableColorBox";
+import DraggableColorList from "./DraggableColorList";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,6 +15,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import {arrayMoveImmutable} from 'array-move';
 
 const drawerWidth = 350;
 
@@ -28,18 +28,18 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const [colors, setColors] = useState([]);
   const [newColorName, setNewColorName] = useState("");
   const [newPaletteName, setNewPaletteName] = useState("");
-
+  
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
       colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
     );
-    ValidatorForm.addValidationRule("isColorUnique", (value) =>
-      colors.every(({ color }) => color !== currentColor)
-    );
-    return () => {
-      ValidatorForm.removeValidationRule("isColorNameUnique");
-    };
-  }, [colors, currentColor, palettes]);
+    ValidatorForm.addValidationRule("isColorUnique", () =>
+    colors.every(({ color }) => color !== currentColor)
+  );
+      ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
+      palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase())
+      );
+    }, [colors, currentColor, palettes]);
 
   const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -77,6 +77,10 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
       }),
     }),
   }));
+
+  const updateCurrentColor = (newColor) => {
+    setCurrentColor(newColor.hex);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -84,7 +88,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     setOpen(false);
   };
   const addNewColor = () => {
-    const newColor = { color: currentColor, name: newColorName };
+    const newColor = { color: currentColor, name: newColorName, id: newColorName };
     setColors([...colors, newColor]);
     setNewColorName("");
   };
@@ -97,19 +101,25 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     }
   };
   const handleSubmit = () => {
+    let newName= newPaletteName;
     const newPalette = {
-      paletteName: newPaletteName,
-      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, "-"),
       colors: colors,
     };
     savePalette(newPalette);
     navigate("/");
   };
 
-  const removeColor = (colorName) => {
-    setColors(colors.filter((color) => color.name !== colorName));
+  const removeColor = useCallback((colorId) => {
+    setColors(colors.filter((color) => color.id !== colorId));
+  }, [colors]);
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setColors(arrayMoveImmutable(colors, oldIndex, newIndex));
   };
   
+
   return (
     <Box style={{ display: "flex" }}>
       <CssBaseline />
@@ -177,14 +187,16 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
         </div>
         <ChromePicker
           color={currentColor}
-          onChangeComplete={(newColor) => setCurrentColor(newColor.hex)}
+          onChangeComplete={updateCurrentColor}
+          value={currentColor}
         />
         <ValidatorForm ref={formRef} onSubmit={addNewColor}>
+    
           <TextValidator
             value={newColorName}
             name="newColorName"
             onChange={handleChange}
-            validators={["required", "isColorNameUnique"]}
+            validators={["required", "isColorNameUnique", "isColorUnique"]}
             errorMessages={[
               "Enter a color name",
               "Color name must be unique",
@@ -203,17 +215,22 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
       </Drawer>
       <Main open={open}>
         <Toolbar />
-        {colors.map((color) => (
-          <DraggableColorBox
-            color={color.color}
-            name={color.name}
-            key={color.name}
-            handleDelete={() => removeColor(color.name)}
-          />
-        ))}
+        <DraggableColorList
+          colors={colors}
+          removeColor={removeColor}
+          axis='xy'
+          onSortEnd={onSortEnd}
+        />
       </Main>
     </Box>
   );
 };
 
 export default NewPaletteForm;
+
+
+
+
+
+
+
