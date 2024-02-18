@@ -15,7 +15,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import {arrayMoveImmutable} from 'array-move';
+import { arrayMoveImmutable } from "array-move";
 
 const drawerWidth = 350;
 
@@ -25,21 +25,26 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const formRef = useRef(null);
   const [open, setOpen] = React.useState(false);
   const [currentColor, setCurrentColor] = useState("#E7CF0D");
-  const [colors, setColors] = useState([]);
+  const [colors, setColors] = useState(palettes[0].colors);
   const [newColorName, setNewColorName] = useState("");
   const [newPaletteName, setNewPaletteName] = useState("");
-  
+  const defaultProps = {
+    maxColors: 20,
+  };
+
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
       colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
     );
     ValidatorForm.addValidationRule("isColorUnique", () =>
-    colors.every(({ color }) => color !== currentColor)
-  );
-      ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
-      palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase())
-      );
-    }, [colors, currentColor, palettes]);
+      colors.every(({ color }) => color !== currentColor)
+    );
+    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
+      palettes.every(
+        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
+      )
+    );
+  }, [colors, currentColor, palettes]);
 
   const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -88,7 +93,11 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     setOpen(false);
   };
   const addNewColor = () => {
-    const newColor = { color: currentColor, name: newColorName, id: newColorName };
+    const newColor = {
+      color: currentColor,
+      name: newColorName,
+      id: newColorName,
+    };
     setColors([...colors, newColor]);
     setNewColorName("");
   };
@@ -101,7 +110,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     }
   };
   const handleSubmit = () => {
-    let newName= newPaletteName;
+    let newName = newPaletteName;
     const newPalette = {
       paletteName: newName,
       id: newName.toLowerCase().replace(/ /g, "-"),
@@ -111,19 +120,33 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     navigate("/");
   };
 
-  const removeColor = useCallback((colorId) => {
-    setColors(colors.filter((color) => color.id !== colorId));
-  }, [colors]);
+  const removeColor = useCallback(
+    (colorName) => {
+      setColors(colors.filter((color) => color.id !== colorName));
+    },
+    [colors]
+  );
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setColors(arrayMoveImmutable(colors, oldIndex, newIndex));
   };
-  
+
+  const clearColors = () => {
+    setColors([]);
+  };
+
+  const addRandomColor = () => {
+    const allColors = palettes.map((p) => p.colors).flat();
+    var rand = Math.floor(Math.random() * allColors.length);
+    const randomColor = allColors[rand];
+    setColors([...colors, randomColor]);
+  };
+
+  const paletteIsFull = colors.length >= defaultProps.maxColors;
 
   return (
     <Box style={{ display: "flex" }}>
       <CssBaseline />
-
       <AppBar position="fixed" color="default" open={open}>
         <Toolbar>
           <IconButton
@@ -178,10 +201,18 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
         <Divider />
         <Typography variant="h4">Design Your Palette</Typography>
         <div>
-          <Button variant="contained" color="secondary">
+          <Button
+          variant="contained" 
+          color="secondary" 
+          onClick={clearColors}>
             Clear Palette
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addRandomColor}
+            disabled={paletteIsFull}
+          >
             Random Color
           </Button>
         </div>
@@ -191,7 +222,6 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
           value={currentColor}
         />
         <ValidatorForm ref={formRef} onSubmit={addNewColor}>
-    
           <TextValidator
             value={newColorName}
             name="newColorName"
@@ -206,20 +236,21 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
           <Button
             variant="contained"
             color="secondary"
-            style={{ backgroundColor: currentColor }}
+            disabled={paletteIsFull}
+            style={{ backgroundColor: paletteIsFull ? 'grey' : currentColor }}
             type="submit"
           >
-            Add Color
+             {paletteIsFull ? "Palette is Full" : "Add Color"}
           </Button>
         </ValidatorForm>
       </Drawer>
       <Main open={open}>
         <Toolbar />
         <DraggableColorList
-          colors={colors}
           removeColor={removeColor}
-          axis='xy'
           onSortEnd={onSortEnd}
+          colors={colors}
+          axis="xy"
         />
       </Main>
     </Box>
@@ -227,10 +258,3 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
 };
 
 export default NewPaletteForm;
-
-
-
-
-
-
-
