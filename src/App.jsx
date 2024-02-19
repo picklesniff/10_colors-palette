@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useCallback  } from "react";
 import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 import Palette from "./Palette";
 import PaletteList from "./PaletteList";
@@ -18,10 +18,13 @@ function App() {
     return <Palette palette={palette} />;
   };
 
-  const savePalette = (newPalette) => {
-    setPalettes([...palettes, newPalette]);
-    navigate('/'); 
-  };
+  const savePalette = useCallback(
+    (newPalette) => {
+      setPalettes([...palettes, newPalette]);
+      navigate('/');
+    },
+    [palettes, navigate]
+  );
 
   const SingleColorPaletteWrapper = () => {
     const { paletteId, colorId } = useParams();

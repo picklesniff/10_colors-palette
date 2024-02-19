@@ -2,8 +2,11 @@ import React from "react";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import { SortableElement } from "react-sortable-hoc";
 
-const DraggableColorBox = SortableElement(({ color, name, handleClick }) => {
-
+const DraggableColorBox = SortableElement(({ color, name, removeColor }) => {
+  console.log(removeColor)
+  const handleDelete = () => {
+    removeColor(name); 
+};
     const boxStyle = {
       width: "20%",
       height: "25%",
@@ -43,7 +46,7 @@ const DraggableColorBox = SortableElement(({ color, name, handleClick }) => {
           <DeleteTwoToneIcon
             style={deleteIcon}
             className="delete-icon"
-            onClick={handleClick}
+            onClick={handleDelete}
           />
         </div>
       </div>
