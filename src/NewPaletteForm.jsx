@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ChromePicker } from "react-color";
 import { styled, useTheme } from "@mui/material/styles";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import DraggableColorList from "./DraggableColorList";
+import ColorPickerForm from "./ColorPickerForm";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -21,21 +20,11 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const theme = useTheme();
   const formRef = useRef(null);
   const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = useState("#E7CF0D");
   const [colors, setColors] = useState(palettes[0].colors);
   const [newColorName, setNewColorName] = useState("");
   const defaultProps = {
     maxColors: 20,
   };
-
-  useEffect(() => {
-    ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
-      colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
-    );
-    ValidatorForm.addValidationRule("isColorUnique", () =>
-      colors.every(({ color }) => color !== currentColor)
-    );
-  }, [colors, currentColor]);
 
   const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -73,30 +62,15 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
     }),
   }));
 
-  const updateCurrentColor = (newColor) => {
-    setCurrentColor(newColor.hex);
-  };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const addNewColor = () => {
-    const newColor = {
-      color: currentColor,
-      name: newColorName,
-      id: newColorName,
-    };
+  const addNewColor = (newColor) => {
     setColors([...colors, newColor]);
     setNewColorName("");
   };
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-   if (name === "newColorName") {
-      setNewColorName(value);
-    }
-  };
   const removeColor = useCallback(
     (colorName) => {
-      console.log("Removing color with name:", colorName);
       setColors(colors.filter((color) => color.name !== colorName));
     },
     [colors]
@@ -121,7 +95,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
         open={open}
         palettes={palettes}
         AppBar={AppBar}
-        setOpen={setOpen} 
+        setOpen={setOpen}
         savePalette={savePalette}
         colors={colors}
       />
@@ -141,7 +115,6 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
         <Toolbar>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" && <ChevronLeftIcon />}
-        
           </IconButton>
         </Toolbar>
         <Divider />
@@ -159,33 +132,11 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
             Random Color
           </Button>
         </div>
-        <ChromePicker
-          color={currentColor}
-          onChangeComplete={updateCurrentColor}
-          value={currentColor}
+        <ColorPickerForm
+          paletteIsFull={paletteIsFull}
+          colors={colors}
+          addNewColor={addNewColor}
         />
-        <ValidatorForm ref={formRef} onSubmit={addNewColor}>
-          <TextValidator
-            value={newColorName}
-            name="newColorName"
-            onChange={handleChange}
-            validators={["required", "isColorNameUnique", "isColorUnique"]}
-            errorMessages={[
-              "Enter a color name",
-              "Color name must be unique",
-              "Color already used!",
-            ]}
-          />
-          <Button
-            variant="contained"
-            color="secondary"
-            disabled={paletteIsFull}
-            style={{ backgroundColor: paletteIsFull ? "grey" : currentColor }}
-            type="submit"
-          >
-            {paletteIsFull ? "Palette is Full" : "Add Color"}
-          </Button>
-        </ValidatorForm>
       </Drawer>
       <Main open={open}>
         <Toolbar />
