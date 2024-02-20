@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import DraggableColorList from "./DraggableColorList";
 import ColorPickerForm from "./ColorPickerForm";
@@ -18,10 +17,8 @@ const drawerWidth = 350;
 
 const NewPaletteForm = ({ savePalette, palettes }) => {
   const theme = useTheme();
-  const formRef = useRef(null);
   const [open, setOpen] = React.useState(false);
   const [colors, setColors] = useState(palettes[0].colors);
-  const [newColorName, setNewColorName] = useState("");
   const defaultProps = {
     maxColors: 20,
   };
@@ -35,6 +32,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+
       marginLeft: `-${drawerWidth}px`,
       ...(open && {
         transition: theme.transitions.create("margin", {
@@ -45,22 +43,20 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
       }),
     })
   );
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  }));
+  const container = {
+    width: "95%",
+    height: "80%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+  const btns = {
+    width: "100%"
+  }
+  const btn = {
+    width: "50%"
+  }
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -90,20 +86,22 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const paletteIsFull = colors.length >= defaultProps.maxColors;
 
   return (
-    <Box style={{ display: "flex" }}>
+    <Box style={{ display: "flex"}}>
       <PaletteFormNav
         open={open}
         palettes={palettes}
-        AppBar={AppBar}
         setOpen={setOpen}
         savePalette={savePalette}
         colors={colors}
+        drawerWidth={drawerWidth}
       />
       <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
+            alignItems: "center",
+            display: 'flex',
             width: drawerWidth,
             boxSizing: "border-box",
           },
@@ -117,13 +115,15 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
             {theme.direction === "ltr" && <ChevronLeftIcon />}
           </IconButton>
         </Toolbar>
+        <div style={container}>
         <Divider />
         <Typography variant="h4">Design Your Palette</Typography>
-        <div>
-          <Button variant="contained" color="secondary" onClick={clearColors}>
+        <div style={btns}>
+          <Button style={btn} variant="contained" color="secondary" onClick={clearColors}>
             Clear Palette
           </Button>
           <Button
+          style={btn}
             variant="contained"
             color="primary"
             onClick={addRandomColor}
@@ -137,6 +137,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
           colors={colors}
           addNewColor={addNewColor}
         />
+        </div>
       </Drawer>
       <Main open={open}>
         <Toolbar />
