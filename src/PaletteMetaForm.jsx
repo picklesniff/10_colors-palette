@@ -7,13 +7,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 
-const PaletteMetaForm = ({ palettes, colors, savePalette, handleClose, open }) => {
+const PaletteMetaForm = ({ palettes, colors, savePalette, hideForm, open }) => {
   const navigate = useNavigate();
   const formRef = useRef(null);
   const [newPaletteName, setNewPaletteName] = useState("");
+  const [stage, setStage] = useState("form");
+  const [selectedEmoji, setSelectedEmoji] = useState("");
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
@@ -29,29 +31,41 @@ const PaletteMetaForm = ({ palettes, colors, savePalette, handleClose, open }) =
       setNewPaletteName(value);
     }
   };
-
-  const handleSubmit = () => {
+  const showEmojiPicker = () => {
+    setStage("emoji");
+  };
+  const handleEmojiSelect = (emoji) => {
+    handleSubmit(emoji); 
+  };
+  
+  const handleSubmit = (emoji) => {
     let newName = newPaletteName;
     const newPalette = {
       paletteName: newName,
       id: newName.toLowerCase().replace(/ /g, "-"),
       colors: colors,
+      emoji: emoji.native, 
     };
     savePalette(newPalette);
     navigate("/");
   };
-
   return (
     <React.Fragment>
-      <Dialog open={open} onClose={handleClose}>
+         <Dialog open={stage === "emoji"} onClose={hideForm}>
+        <DialogTitle id="form-dialog-title">Choose a Palette Emoji</DialogTitle>
+        <Picker title="Pick a Palette Emoji" data={data} onEmojiSelect={handleEmojiSelect} />
+      </Dialog>
+      <Dialog
+        open={stage === "form"}
+        aria-labelledby="form-dialog-title"
+        onClose={hideForm}
+      >
         <DialogTitle>Save Your Palette</DialogTitle>
-        <ValidatorForm ref={formRef} onSubmit={handleSubmit}>
+        <ValidatorForm ref={formRef} onSubmit={showEmojiPicker}>
           <DialogContent>
             <DialogContentText>
               To save your palette, please set a unique name and pick an emoji.
             </DialogContentText>
-            <Picker data={data} onEmojiSelect={console.log} style={{theme: 'ligh'}}t />
-
             <TextValidator
               fullWidth
               margin='normal'
@@ -68,7 +82,7 @@ const PaletteMetaForm = ({ palettes, colors, savePalette, handleClose, open }) =
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={hideForm}>Cancel</Button>
             <Button variant="contained" color="primary" type="submit">
               Save Palette
             </Button>
@@ -80,3 +94,9 @@ const PaletteMetaForm = ({ palettes, colors, savePalette, handleClose, open }) =
 };
 
 export default PaletteMetaForm;
+
+
+
+
+
+

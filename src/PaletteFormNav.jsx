@@ -18,7 +18,7 @@ const PaletteFormNav = ({
   colors,
   drawerWidth,
 }) => {
-  const [formShowing, setFormShowing] = React.useState(false);
+  const [formShowing, setFormShowing] = useState(false);
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -52,7 +52,7 @@ const PaletteFormNav = ({
   const showForm = () => {
     setFormShowing(true);
   };
-  const handleClose = () => {
+  const hideForm = () => {
     setFormShowing(false);
   };
   return (
@@ -90,7 +90,7 @@ const PaletteFormNav = ({
           palettes={palettes}
           colors={colors}
           savePalette={savePalette}
-          handleClose={handleClose}
+          hideForm={hideForm}
         />
       )}
     </div>
