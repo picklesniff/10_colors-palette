@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronLeft";
 import { arrayMoveImmutable } from "array-move";
 import PaletteFormNav from "./PaletteFormNav";
 
@@ -45,25 +45,25 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   );
   const container = {
     width: "95%",
-    height: "80%",
+    height: "70%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   };
   const btns = {
-    width: "100%"
-  }
+    width: "100%",
+    margin: "2rem 0rem",
+  };
   const btn = {
-    width: "50%"
-  }
-
+    width: "50%",
+  };
+ 
   const handleDrawerClose = () => {
     setOpen(false);
   };
   const addNewColor = (newColor) => {
     setColors([...colors, newColor]);
-    setNewColorName("");
   };
   const removeColor = useCallback(
     (colorName) => {
@@ -86,7 +86,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
   const paletteIsFull = colors.length >= defaultProps.maxColors;
 
   return (
-    <Box style={{ display: "flex"}}>
+    <Box style={{ display: "flex" }}>
       <PaletteFormNav
         open={open}
         palettes={palettes}
@@ -101,7 +101,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             alignItems: "center",
-            display: 'flex',
+            display: "flex",
             width: drawerWidth,
             boxSizing: "border-box",
           },
@@ -112,31 +112,38 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
       >
         <Toolbar>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" && <ChevronLeftIcon />}
+            {theme.direction === "ltr" && <ChevronRightIcon />}
           </IconButton>
         </Toolbar>
         <div style={container}>
-        <Divider />
-        <Typography variant="h4">Design Your Palette</Typography>
-        <div style={btns}>
-          <Button style={btn} variant="contained" color="secondary" onClick={clearColors}>
-            Clear Palette
-          </Button>
-          <Button
-          style={btn}
-            variant="contained"
-            color="primary"
-            onClick={addRandomColor}
-            disabled={paletteIsFull}
-          >
-            Random Color
-          </Button>
-        </div>
-        <ColorPickerForm
-          paletteIsFull={paletteIsFull}
-          colors={colors}
-          addNewColor={addNewColor}
-        />
+          <Divider />
+          <Typography variant="h4" gutterBottom>
+            Design Your Palette
+          </Typography>
+          <div style={btns}>
+            <Button
+              style={btn}
+              variant="contained"
+              color="secondary"
+              onClick={clearColors}
+            >
+              Clear Palette
+            </Button>
+            <Button
+              style={btn}
+              variant="contained"
+              color="primary"
+              onClick={addRandomColor}
+              disabled={paletteIsFull}
+            >
+              Random Color
+            </Button>
+          </div>
+          <ColorPickerForm
+            paletteIsFull={paletteIsFull}
+            colors={colors}
+            addNewColor={addNewColor}
+          />
         </div>
       </Drawer>
       <Main open={open}>

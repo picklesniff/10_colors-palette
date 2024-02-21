@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { styled } from "@mui/material/styles";
+import PaletteMetaForm from "./PaletteMetaForm";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,9 +18,7 @@ const PaletteFormNav = ({
   colors,
   drawerWidth,
 }) => {
-  const [newPaletteName, setNewPaletteName] = useState("");
-  const navigate = useNavigate();
-  const formRef = useRef(null);
+  const [formShowing, setFormShowing] = React.useState(false);
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -32,6 +29,7 @@ const PaletteFormNav = ({
     }),
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     height: "64px",
     ...(open && {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -41,40 +39,24 @@ const PaletteFormNav = ({
         duration: theme.transitions.duration.enteringScreen,
       }),
     }),
-}));
-const navBtns ={
-  
-}
-
+  }));
+  const navBtns = {
+    margin: "43px",
+  };
+  const btn = {
+    margin: "0 0.3rem",
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "newPaletteName") {
-      setNewPaletteName(value);
-    }
+  const showForm = () => {
+    setFormShowing(true);
   };
-  const handleSubmit = () => {
-    let newName = newPaletteName;
-    const newPalette = {
-      paletteName: newName,
-      id: newName.toLowerCase().replace(/ /g, "-"),
-      colors: colors,
-    };
-    savePalette(newPalette);
-    navigate("/");
+  const handleClose = () => {
+    setFormShowing(false);
   };
-  useEffect(() => {
-    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
-      palettes.every(
-        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-      )
-    );
-  }, [palettes]);
-
   return (
-    <div style={{display:'flex'}}>
+    <div style={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" color="default" open={open}>
         <Toolbar>
@@ -92,29 +74,25 @@ const navBtns ={
           </Typography>
         </Toolbar>
         <div style={navBtns}>
-          <ValidatorForm ref={formRef} onSubmit={handleSubmit}>
-            <TextValidator
-              label="Palette Name"
-              value={newPaletteName}
-              name="newPaletteName"
-              onChange={handleChange}
-              validators={["required", "isPaletteNameUnique"]}
-              errorMessages={[
-                "Enter Palette Name",
-                "Palette name already exists!",
-              ]}
-            />
-            <Button variant="contained" color="primary" type="submit">
-              Save Palette
+          <Link to="/">
+            <Button variant="contained" color="secondary" style={btn}>
+              Go Back
             </Button>
-          </ValidatorForm>
-        </div>
-        <Link to="/">
-          <Button variant="contained" color="secondary">
-            Go Back
+          </Link>
+          <Button variant="contained" onClick={showForm} style={btn}>
+            Save
           </Button>
-        </Link>
+        </div>
       </AppBar>
+      {formShowing && (
+        <PaletteMetaForm
+          open={formShowing}
+          palettes={palettes}
+          colors={colors}
+          savePalette={savePalette}
+          handleClose={handleClose}
+        />
+      )}
     </div>
   );
 };
