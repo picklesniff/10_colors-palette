@@ -10,12 +10,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 
-const PaletteMetaForm = ({ palettes, colors, savePalette, hideForm, open }) => {
+const PaletteMetaForm = ({ palettes, colors, savePalette, hideForm }) => {
   const navigate = useNavigate();
   const formRef = useRef(null);
   const [newPaletteName, setNewPaletteName] = useState("");
   const [stage, setStage] = useState("form");
-  const [selectedEmoji, setSelectedEmoji] = useState("");
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isPaletteNameUnique", (value) =>
@@ -53,7 +52,7 @@ const PaletteMetaForm = ({ palettes, colors, savePalette, hideForm, open }) => {
     <React.Fragment>
          <Dialog open={stage === "emoji"} onClose={hideForm}>
         <DialogTitle id="form-dialog-title">Choose a Palette Emoji</DialogTitle>
-        <Picker title="Pick a Palette Emoji" data={data} onEmojiSelect={handleEmojiSelect} />
+        <Picker title="Pick a Palette Emoji" data={data} onEmojiSelect={handleEmojiSelect} theme="light" />
       </Dialog>
       <Dialog
         open={stage === "form"}
