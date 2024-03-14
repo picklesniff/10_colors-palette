@@ -5,9 +5,10 @@ const drawerWidth = DRAWER_WIDTH;
 const mainStyles = {
   flexGrow: 1,
   height: "calc(100vh - 64px)",
-  padding: "8px",
+  padding: "0.3px",
   transition: "margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms",
   marginLeft: `-${drawerWidth}px`,
+  lineHeight: "0 !important",
 };
 
 const containerStyles = {
@@ -28,8 +29,13 @@ const btnStyles = {
   width: "50%",
 };
 
+const chevronLeft = {
+  width: "100em",
+  marginLeft: "300px",
+}
+
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
+  ({ open }) => ({
     ...mainStyles,
     ...(open && {
       transition: "margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms",
@@ -38,4 +44,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-export { Main, containerStyles, btnsStyles, btnStyles };
+export { Main, containerStyles, btnsStyles, btnStyles, chevronLeft };
+
+

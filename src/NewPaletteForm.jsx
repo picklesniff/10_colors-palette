@@ -7,14 +7,14 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import ChevronRightIcon from "@mui/icons-material/ChevronLeft";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { arrayMoveImmutable } from "array-move";
 import PaletteFormNav from "./PaletteFormNav";
 import DraggableColorList from "./DraggableColorList";
 import ColorPickerForm from "./ColorPickerForm";
-import { Main, containerStyles, btnsStyles, btnStyles } from "./styles/NewPaletteFormStyles";
-
-const drawerWidth = 350;
+import { Main, containerStyles, btnsStyles, btnStyles, chevronLeft } from "./styles/NewPaletteFormStyles";
+import { DRAWER_WIDTH } from "./constants";
+const drawerWidth = DRAWER_WIDTH;
 
 const NewPaletteForm = ({ savePalette, palettes }) => {
   const theme = useTheme(); 
@@ -82,7 +82,7 @@ const NewPaletteForm = ({ savePalette, palettes }) => {
       >
         <Toolbar>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" && <ChevronRightIcon />}
+            {theme.direction === "ltr" && <ChevronLeftIcon style={chevronLeft} />}
           </IconButton>
         </Toolbar>
         <div style={containerStyles}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useCallback  } from "react";
+import { useState, useCallback, useEffect  } from "react";
 import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 import Palette from "./Palette";
 import PaletteList from "./PaletteList";
@@ -9,7 +9,10 @@ import NewPaletteForm from "./NewPaletteForm";
 import { generatePalette } from "./colorHelpers";
 
 function App() {
-  const [palettes, setPalettes] = useState(seedsColors);
+  const [palettes, setPalettes] = useState(() => {
+    const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+    return savedPalettes || seedsColors;
+  });
   const navigate = useNavigate(); 
   const findPalette = (id) => palettes.find((palette) => palette.id === id);
   const PaletteWrapper = () => {
@@ -17,6 +20,14 @@ function App() {
     const palette = generatePalette(findPalette(id));
     return <Palette palette={palette} />;
   };
+  
+  const syncLocalStorage = () => {
+    window.localStorage.setItem("palettes", JSON.stringify(palettes));
+  };
+
+  useEffect(() => {
+    syncLocalStorage();
+  }, [palettes]);
 
   const savePalette = useCallback(
     (newPalette) => {
