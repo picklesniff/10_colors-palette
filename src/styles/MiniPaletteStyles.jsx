@@ -10,10 +10,11 @@ const MiniPaletteStyles = () => {
         padding: 0.5rem;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
       }
 
-      .miniPalette:hover {
-        cursor: pointer;
+      .miniPalette:hover svg {
+        opacity: 1;
       }
 
       .colors {
@@ -31,6 +32,19 @@ const MiniPaletteStyles = () => {
         margin: 0 auto;
         position: relative;
         margin-bottom: -3.5px;
+      }
+
+      .deleteIcon {
+        color: white;
+        background-color: #eb3d30;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        padding: 10px;
+        z-index: 10;
+        opacity: 0;
       }
 
       .title {

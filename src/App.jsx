@@ -15,12 +15,16 @@ function App() {
   });
   const navigate = useNavigate(); 
   const findPalette = (id) => palettes.find((palette) => palette.id === id);
+  const deletePalette = (id) => {
+    const updatedPalettes = palettes.filter(palette => palette.id !== id);
+    setPalettes(updatedPalettes);
+  };
   const PaletteWrapper = () => {
     const { id } = useParams();
     const palette = generatePalette(findPalette(id));
     return <Palette palette={palette} />;
   };
-  
+
   const syncLocalStorage = () => {
     window.localStorage.setItem("palettes", JSON.stringify(palettes));
   };
@@ -45,7 +49,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<PaletteList palettes={palettes} />} />
+      <Route path="/" element={<PaletteList palettes={palettes} deletePalette={deletePalette} />} />
       <Route path='/palette/new' element={<NewPaletteForm savePalette={savePalette} palettes={palettes} />} />
       <Route path="/palette/:id" element={<PaletteWrapper />}  />
       <Route path="/palette/:paletteId/:colorId" element={<SingleColorPaletteWrapper />}  />

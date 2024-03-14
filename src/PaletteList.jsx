@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 import PaletteListStyles from "./styles/PaletteListStyles";
 
-function PaletteList({ palettes }) {
+function PaletteList({ palettes, deletePalette }) {
   const navigate = useNavigate();
 
   const goToPalette = (id) => {
@@ -28,6 +28,7 @@ function PaletteList({ palettes }) {
                 colors={palette.colors}
                 paletteId={palette.id}
                 paletteClick={goToPalette}
+                handleDelete={deletePalette}
               />
             ))}
           </div>
