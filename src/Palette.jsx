@@ -16,7 +16,7 @@ function Palette({ palette }) {
       name={color.name}
       format={format}
       moreUrl={`/palette/${palette.id}/${color.id}`}
-      showLink={true}
+      showLink
     />
   ));
 

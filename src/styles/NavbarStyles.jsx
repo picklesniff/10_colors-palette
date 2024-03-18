@@ -1,4 +1,5 @@
 import React from "react";
+import mediaQuery from "./mediaQuery";
 
 const NavbarStyles = () => (
   <style>{`
@@ -30,7 +31,6 @@ const NavbarStyles = () => (
       margin: 0 10px;
       display: inline-block;
     }
-
     .slider .rc-slider-track {
       background-color: transparent;
     }
@@ -53,10 +53,20 @@ const NavbarStyles = () => (
       margin-top: -3px;
     }
 
+    ${mediaQuery.down("md")} {
+      .logo {
+        font-size: 16px; 
+      }
+      .slider {
+        width: 113px; 
+      }
+    }
+
     .select-container {
       margin-left: auto;
       margin-right: 1rem;
     }
+
   `}</style>
 );
 

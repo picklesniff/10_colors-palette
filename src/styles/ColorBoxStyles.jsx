@@ -1,4 +1,5 @@
 import React from "react";
+import mediaQuery from "./mediaQuery";
 
 const ColorBoxStyles = () => {
   return (
@@ -138,6 +139,31 @@ const ColorBoxStyles = () => {
       .copy-msg p {
         font-size: 2rem;
         font-weight: 100;
+      }
+
+       ${mediaQuery.down("lg")} {
+        .ColorBox {
+          width: 20%;
+          height: 25%;
+        }
+        .SingleColorPalette .ColorBox {
+          width: 100%;
+          height: 10%;
+        }
+      }
+
+      ${mediaQuery.down("md")} {
+        .ColorBox {
+          width: 50%;
+          height: 10%;
+        }
+      }
+
+      ${mediaQuery.down("xs")} {
+        .ColorBox {
+          width: 100%;
+          height: 5%;
+        }
       }
     `}</style>
   );

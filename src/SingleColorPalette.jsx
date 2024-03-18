@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import PaletteStyles from "./styles/PaletteStyles";
 import PaletteFooter from './PaletteFooter';
+import mediaQuery from "./styles/mediaQuery";
 
 function SingleColorPalette({ palette, colorId }) {
   const [format, setFormat] = useState("hex");
@@ -24,7 +24,7 @@ function SingleColorPalette({ palette, colorId }) {
   const shades = gatherShades(palette, colorId);
   const colorBoxes = shades.map((color) => (
     <ColorBox
-      key={uuidv4()}
+      key={color.name}
       name={color.name}
       background={color}
       showLink={false}
@@ -47,6 +47,14 @@ function SingleColorPalette({ palette, colorId }) {
         </div>
         </div>
       <PaletteFooter palette={palette} />
+      <style>{`
+        @media ${mediaQuery.down("lg")} {
+          .ColorBox {
+            width: 100%;
+            height: 10%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
