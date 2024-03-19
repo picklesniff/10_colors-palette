@@ -43,6 +43,27 @@ const PaletteListStyles = () => {
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 2rem;
       }
+      
+      .addNewPalette{
+        text-align: center;
+      }
+      .addPalette  {
+        margin: auto;
+        display: flex;
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      .addIcon {
+      margin-top: 25%
+      }
+
+      .addNewPalette:hover,
+      .addNewPalette:hover svg {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+        }
+
       ${mediaQuery.down("lg")} {
         .paletteGrid {
           grid-template-columns: repeat(3, 1fr);

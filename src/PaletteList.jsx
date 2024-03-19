@@ -22,6 +22,12 @@ function PaletteList({ palettes, deletePalette }) {
             <Link className='link' to="/palette/new">Create Palette</Link>
           </div>
           <div className="paletteGrid">
+          <div className="miniPalette addNewPalette">
+              <Link className='link' to="/palette/new">
+              <AddIcon className="addIcon"/>
+              <Button variant="text" className="addPalette"> Add Palette</Button>
+              </Link>
+            </div>
             {palettes.map((palette) => (
               <MiniPalette
                 key={palette.id}
@@ -33,11 +39,7 @@ function PaletteList({ palettes, deletePalette }) {
                 handleDelete={deletePalette}
               />
             ))}
-             <div className="miniPalette">
-              <Link className='link' to="/palette/new">
-              <Button variant="text" className="newPalette"><AddIcon /> Add Palette</Button>
-              </Link>
-            </div>
+           
           </div>
         </div>
       </div>

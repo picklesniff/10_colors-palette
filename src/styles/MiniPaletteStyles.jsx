@@ -4,20 +4,9 @@ import mediaQuery from './mediaQuery';
 const MiniPaletteStyles = () => {
   return (
     <style>{`
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
 
       .miniPalette {
-        background-color: rgba(248, 243, 230, 0.75);
+        background-color: rgba(248, 243, 230, 0.7);
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         border-radius: 5px;
         padding: 0.35rem;
@@ -28,15 +17,21 @@ const MiniPaletteStyles = () => {
 
       .miniPalette:hover .title,
       .miniPalette:hover .emoji {
-        transform: scale(1.075);
+        transform: scale(1.025);
         transition: transform 0.35s ease-in-out;
+        text-shadow: rgba(225, 225, 225, 0.25) 0px 54px 55px, rgba(225, 225, 225, 0.12) 20px -10px 30px, rgba(225, 225, 225, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        
       }
       .miniPalette:hover svg {
         opacity: 1;
       }
+      .miniPalette:hover {
+        transform: scale(1.05);
+        transition: transform 0.35s ease-in-out;
+      }
 
       .colors {
-        background-color: #dae1e4;
+        background-color: rgba(248, 243, 230, 0.1);
         height: 200px;
         width: 100%;
         border-radius: 5px;
@@ -47,9 +42,8 @@ const MiniPaletteStyles = () => {
         height: 25%;
         width: 20%;
         display: inline-block;
-        margin: 0 auto;
         position: relative;
-        margin-bottom: -3.63px;
+        margin: -1.88px 0;
       }
 
       .deleteIcon {
@@ -69,9 +63,8 @@ const MiniPaletteStyles = () => {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        margin: 0.25rem;
+        margin: 0.5rem;
         color: #303542;
-        padding: 0.35rem 0rem ;
         font-size: 1rem;
         position: relative;
         transition: transform 0.3s ease-in-out;
@@ -88,7 +81,7 @@ const MiniPaletteStyles = () => {
           height: 165px;
         }
         .title {
-          font-size: 0.88em;
+          font-size: 0.95em;
           padding: 0rem;
         }
       }
@@ -98,8 +91,8 @@ const MiniPaletteStyles = () => {
           height: 125px;
         }
         .title {
-          font-size: 0.82em;
-          padding: 0.15rem;
+          font-size: 0.8em;
+          padding: 0.02rem;
         }
       }
 
