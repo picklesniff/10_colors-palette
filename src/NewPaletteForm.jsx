@@ -13,7 +13,7 @@ import PaletteFormNav from "./PaletteFormNav";
 import DraggableColorList from "./DraggableColorList";
 import ColorPickerForm from "./ColorPickerForm";
 import { Main, containerStyles, btnsStyles, btnStyles, chevronLeft } from "./styles/NewPaletteFormStyles";
-import { DRAWER_WIDTH } from "./constants";
+import { DRAWER_WIDTH } from "./styles/constants";
 const drawerWidth = DRAWER_WIDTH;
 
 const NewPaletteForm = ({ savePalette, palettes }) => {

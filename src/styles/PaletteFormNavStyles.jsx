@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import mediaQuery from "./mediaQuery";
-import { DRAWER_WIDTH } from "../constants";
+import { DRAWER_WIDTH } from "./constants";
 const drawerWidth = DRAWER_WIDTH;
 
 export const AppBar = styled(MuiAppBar, {

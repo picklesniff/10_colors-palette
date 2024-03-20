@@ -55,7 +55,16 @@ const NavbarStyles = () => (
 
     ${mediaQuery.down("md")} {
       .logo {
-        font-size: 16px; 
+        font-size: 18px; 
+      }
+      .slider {
+        width: 155px; 
+      }
+    }
+
+    ${mediaQuery.down("xs")} {
+      .logo {
+        font-size: 14px; 
       }
       .slider {
         width: 113px; 

@@ -66,8 +66,8 @@ const ColorPickerForm = ({ paletteIsFull, colors, addNewColor }) => {
           color="secondary"
           disabled={paletteIsFull}
           type="submit"
-          paletteIsFull={paletteIsFull}
-          currentColor={currentColor}
+          paletteisfull={paletteIsFull.toString()}
+          currentcolor={currentColor}
         >
           {paletteIsFull ? "Palette is Full" : "Add Color"}
         </AddColorButton>

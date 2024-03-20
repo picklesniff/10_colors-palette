@@ -55,7 +55,7 @@ const PaletteListStyles = () => {
       }
 
       .addIcon {
-      margin-top: 25%
+      margin-top: 33.333%
       }
 
       .addNewPalette:hover,
@@ -74,7 +74,15 @@ const PaletteListStyles = () => {
         }
          .paletteListContent {
           width: 80%;
-        }
+         }
+         .addIcon {
+          margin-top: 28%
+          }
+      }
+      ${mediaQuery.down("md")} {
+         .addIcon {
+          margin-top: 25%
+          }
       }
       ${mediaQuery.down("xs")} {
         .paletteGrid {

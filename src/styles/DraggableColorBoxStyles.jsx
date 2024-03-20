@@ -18,13 +18,13 @@ const DraggableColorBoxStyles = () => {
         display: inline-block;
         position: relative;
         cursor: grab;
-        margin-bottom: -3.5px;
       }
 
       .boxContent {
         position: absolute;
         width: 100%;
         left: 0px;
+        bottom: 5px;
         padding: 10px;
         color: rgba(0, 0, 0, 0.5);
         letter-spacing: 1px;
@@ -32,6 +32,7 @@ const DraggableColorBoxStyles = () => {
         font-size: 12px;
         display: flex;
         justify-content: space-between;
+        align-items: flex-end; 
       }
 
       .deleteIcon {
@@ -50,7 +51,6 @@ const DraggableColorBoxStyles = () => {
         align-items: center;
         font-size: 9px;
       }
-
       ${mediaQuery.down("md")} {
         .boxStyle {
           width: 100%;
