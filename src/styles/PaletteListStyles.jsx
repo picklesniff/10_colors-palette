@@ -94,6 +94,15 @@ const PaletteListStyles = () => {
         }
       }
 
+      .copyrightText {
+        position: absolute;
+        bottom: 10px;
+        left: 50%; 
+        transform: translateX(-50%); 
+        font-size: 14px; 
+        color: rgba(255, 255, 255, 0.5); 
+      }
+
       @keyframes gradient {
         0% { background-position: 0% 54%; }
         50% { background-position: 100% 47%; }

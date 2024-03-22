@@ -39,7 +39,9 @@ function PaletteList({ palettes, deletePalette }) {
                 handleDelete={deletePalette}
               />
             ))}
-           
+          </div>
+          <div className="copyrightText">
+            <p>Valeriia Ivashkina &copy; 2024</p>
           </div>
         </div>
       </div>
