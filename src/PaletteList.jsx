@@ -40,9 +40,9 @@ function PaletteList({ palettes, deletePalette }) {
               />
             ))}
           </div>
-          <div className="copyrightText">
-            <p>Valeriia Ivashkina &copy; 2024</p>
-          </div>
+          <footer className="footer">
+            <p className="copyright" >Valeriia Ivashkina &copy; 2024</p>
+          </footer>
         </div>
       </div>
     </>

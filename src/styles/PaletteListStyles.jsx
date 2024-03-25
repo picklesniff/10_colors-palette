@@ -94,14 +94,21 @@ const PaletteListStyles = () => {
         }
       }
 
-      .copyrightText {
+      footer {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    p.copyright {
         position: absolute;
-        bottom: 10px;
-        left: 50%; 
-        transform: translateX(-50%); 
-        font-size: 14px; 
-        color: rgba(255, 255, 255, 0.5); 
-      }
+        width: 100%;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 40px;
+        font-size: 0.8em;
+        text-align: center;
+        bottom:0;
+    }
 
       @keyframes gradient {
         0% { background-position: 0% 54%; }
