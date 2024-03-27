@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useCallback, useEffect  } from "react";
-import { Routes, Route, useParams, useNavigate } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate, Navigate } from "react-router-dom";
 import Palette from "./Palette";
 import PaletteList from "./PaletteList";
 import SingleColorPalette from "./SingleColorPalette";
@@ -41,6 +41,7 @@ function App() {
     [palettes, navigate]
   );
 
+
   const SingleColorPaletteWrapper = () => {
     const { paletteId, colorId } = useParams();
     const palette = generatePalette(findPalette(paletteId));
@@ -53,6 +54,7 @@ function App() {
       <Route path='/palette/new' element={<NewPaletteForm savePalette={savePalette} palettes={palettes} />} />
       <Route path="/palette/:id" element={<PaletteWrapper />}  />
       <Route path="/palette/:paletteId/:colorId" element={<SingleColorPaletteWrapper />}  />
+      <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
